@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html ng-app="rpsApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Rock Paper Scissors</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 40px;
+      background: #f4f4f4;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 18px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    p {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+
+    .result {
+      font-weight: bold;
+      font-size: 20px;
+      color: #2c3e50;
+    }
+  </style>
+</head>
+<body ng-controller="RPSController">
+  <h2>🪨 Rock, 📄 Paper, ✂️ Scissors Game</h2>
+
+  <p>Choose your move:</p>
+  <button ng-click="play('rock')">Rock</button>
+  <button ng-click="play('paper')">📄 Paper</button>
+  <button ng-click="play('scissors')">✂️ Scissors</button>
+
+  <p>You chose: <strong>{{playerChoice}}</strong></p>
+  <p>Computer chose: <strong>{{computerChoice}}</strong></p>
+  <p class="result">{{result}}</p>
+
+  <script>
+    var app = angular.module('rpsApp', []);
+
+    app.controller('RPSController', function($scope) {
+      const choices = ['rock', 'paper', 'scissors'];
+
+      function getComputerChoice() {
+        return choices[Math.floor(Math.random() * 3)];
+      }
+
+      function getResult(player, computer) {
+        if (player === computer) return "It's a Draw!";
+        if (
+          (player === 'rock' && computer === 'scissors') ||
+          (player === 'paper' && computer === 'rock') ||
+          (player === 'scissors' && computer === 'paper')
+        ) return "You Win! 🎉";
+        return "You Lose 😞";
+      }
+
+      $scope.play = function(playerMove) {
+        $scope.playerChoice = playerMove;
+        $scope.computerChoice = getComputerChoice();
+        $scope.result = getResult($scope.playerChoice, $scope.computerChoice);
+      };
+    });
+  </script>
+</body>
+</html>
